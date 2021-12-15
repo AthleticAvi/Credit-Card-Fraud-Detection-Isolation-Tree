@@ -1,0 +1,26 @@
+POST http://localhost:8001/developers
+content-type: application/json
+
+{
+    "id": "543",
+    "isFraud": "1"
+}
+###
+POST http://localhost:8001/transactions
+content-type: application/json
+
+{
+    "id":"543",
+    "card": "30074693890476",
+    "is_fraud": "0"
+}
+
+
+###
+POST http://localhost:8001/login
+content-type: application/json
+
+{
+    "id":"543",
+    "card": "30074693890476"
+}
