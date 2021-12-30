@@ -100,7 +100,7 @@ def getTransactionToTest(server):
         import pickle
         # Load from file
         fileName = int(data['id'])
-        with open(f'C:/Users/abumo/OneDrive/שולחן העבודה/final project v1/server/models123/{fileName}.pkl', 'rb') as file:
+        with open(f'models123/{fileName}.pkl', 'rb') as file:
             model = pickle.load(file)
 
         amt = transaction['price']
@@ -114,6 +114,7 @@ def getTransactionToTest(server):
         prediction : -1 means its fraud
         prediction : 1 means its legitimate
         '''
+        
         prediction = model.predict(
             [[amt, unix_time, merch_lat, merch_long, minutes_from_midnight, hours_from_month_start]])
 

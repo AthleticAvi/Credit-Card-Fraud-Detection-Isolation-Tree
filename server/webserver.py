@@ -2,7 +2,7 @@ import psycopg2
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
-DB_HOST = "84.108.86.171"
+DB_HOST = "localhost"
 DB_NAME = "FraudDetection"
 DB_USER = "postgres"
 DB_PASS = "karamabumokh"
@@ -67,6 +67,11 @@ class reqHandler(BaseHTTPRequestHandler):
         if self.path.endswith('login'):
             from Controllers.Login import login
             login(self)
+
+        # change status of transaction to be not fraud
+        if self.path.endswith('moveToLegit'):
+            from Controllers.Leget import legit
+            legit(self)
 
 
 def main():

@@ -1,6 +1,5 @@
 import React from 'react'
-import Search from './Search/Search'
-import AllDays from './Day/Day'
+import Day from './Day/Day'
 import { StyleSheet, Text, ScrollView, View, Pressable } from 'react-native';
 import axios from 'axios'
 
@@ -19,17 +18,13 @@ class Transactions extends React.Component {
         this.getTransactions()
     }
 
-    changeShow = (show) => {
-        this.setState({
-            show: show
-        })
-    }
+
 
 
     getTransactions = async () => {
         // get transactions
         await axios
-            .post('http://10.0.0.23:8001/transactions', {
+            .post('http://192.168.1.15:8001/transactions', {
                 id: this.props.params.id,
                 card: this.props.params.card,
                 is_fraud: 0
@@ -38,21 +33,17 @@ class Transactions extends React.Component {
             })
             .then(response => response.data)
             .then((data) => {
+                console.log('--------------------')
+                console.log(data['history'].length)
+                console.log('--------------------')
 
                 this.setState({
-                    history: data['history'],
-                    show: data['history']
-                })
 
-                console.log('from server: ', data)
+                    history: data['history'],
+                })
 
             })
             .catch(e => console.log('errererrr:', e))
-    }
-
-
-    changePage = (page, value) => {
-        this.props.changePage(page, value)
     }
 
 
@@ -60,8 +51,7 @@ class Transactions extends React.Component {
         return (
             <ScrollView >
                 <Text style={styles.header}>Transactions History</Text>
-                {/* <Search history={this.state.show} changeShow={this.changeShow} /> */}
-                <AllDays changePage={this.changePage} history={this.state.show} />
+                <Day changePage={this.props.changePage} history={this.state.history} />
 
             </ScrollView>
         )

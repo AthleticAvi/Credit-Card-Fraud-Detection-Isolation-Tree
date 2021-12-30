@@ -1,7 +1,7 @@
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
-import { TextInput, StyleSheet, Text, View,  Pressable,  Alert, ScrollView } from 'react-native';
+import { TextInput, StyleSheet, Text, View, Pressable, Alert, ScrollView } from 'react-native';
 import axios from 'axios'
 import TransactionDetails from './TransactionDetails/TransactionDetails'
 
@@ -24,29 +24,29 @@ class Developers extends React.Component {
       transactionAvailable: false
     }
 
-  // const [expoPushToken, setExpoPushToken] = useState('');
-  // const [notification, setNotification] = useState(false);
-  // const notificationListener = useRef();
-  // const responseListener = useRef();
+    // const [expoPushToken, setExpoPushToken] = useState('');
+    // const [notification, setNotification] = useState(false);
+    // const notificationListener = useRef();
+    // const responseListener = useRef();
 
-  // const [notificationTitle, setNotificationTitle] = useState('notification');
-  // const [notificationBody, setNotificationBody] = useState('notification body');
-  // useEffect(() => {
-  //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    // const [notificationTitle, setNotificationTitle] = useState('notification');
+    // const [notificationBody, setNotificationBody] = useState('notification body');
+    // useEffect(() => {
+    //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
-  //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-  //     setNotification(notification);
-  //   });
+    //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+    //     setNotification(notification);
+    //   });
 
-  //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-  //     console.log(response);
-  //   });
+    //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+    //     console.log(response);
+    //   });
 
-  //   return () => {
-  //     Notifications.removeNotificationSubscription(notificationListener.current);
-  //     Notifications.removeNotificationSubscription(responseListener.current);
-  //   };
-  // }, []);
+    //   return () => {
+    //     Notifications.removeNotificationSubscription(notificationListener.current);
+    //     Notifications.removeNotificationSubscription(responseListener.current);
+    //   };
+    // }, []);
   }
 
   submit = async (f) => {
@@ -55,7 +55,7 @@ class Developers extends React.Component {
       transaction: null,
       transactionAvailable: false
     })
-    await axios.post('http://10.0.0.23:8001/developers', {
+    await axios.post('http://192.168.1.15:8001/developers', {
       isFraud: f,
       id: this.state.id
     }, {
@@ -69,7 +69,7 @@ class Developers extends React.Component {
             result: data['prediction'],
             transactionAvailable: true
           })
-          if (data['prediction' == -1]){
+          if (data['prediction' == -1]) {
             //schedulePushNotification('notificationTitle', 'notificationBody');
           }
         } else {
@@ -116,7 +116,7 @@ class Developers extends React.Component {
           </View>
 
         ) : null}
-          
+
 
       </ScrollView>
     )
@@ -124,7 +124,7 @@ class Developers extends React.Component {
 }
 
 //  function requestNotification() {
-  
+
 // }
 
 async function schedulePushNotification(title, body) {

@@ -6,7 +6,6 @@ import pandas as pd
 def transactions(server):
     content_len = int(server.headers.get('Content-Length'))
     data = json.loads(server.rfile.read(content_len))
-    print(data)
     # -----------------------------------
     # database
     cur, conn = openDB()
@@ -23,10 +22,7 @@ def transactions(server):
                                'merch_long', 'is_fraud', 'minutes_from_midnight', 'hours_from_month_start', 'transactionDate', 'date', 'time', 'merchant', 'category', 'serial_num'])
 
     first50 = content[:50]
-    print(first50[:5])
 
-    # first50['date'] = first50['date'].apply(
-    #     lambda x: datetime.strftime(x, '%Y-%m-%d'))
     for row in first50:
         df.loc[len(df)] = list(row)
 

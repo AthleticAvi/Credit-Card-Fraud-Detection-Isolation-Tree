@@ -9,7 +9,7 @@ class Feedback extends React.Component {
   }
 
   returnHome = () => {
-    this.props.navigation.navigate('Transactions')
+    this.props.changePage('Transaction')
   }
 
 

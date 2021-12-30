@@ -13,7 +13,7 @@ class Login extends React.Component {
 
   submit = () => {
 
-    axios.post('http://10.0.0.23:8001/login', {
+    axios.post('http://192.168.1.15:8001/login', {
       id: this.state.id,
       card: this.state.card
     }, {
@@ -35,7 +35,7 @@ class Login extends React.Component {
         }
 
       })
-    .catch(e => console.log('errererrr:', e))
+      .catch(e => console.log('errererrr:', e))
   }
 
   changeId = (value) => {
@@ -59,7 +59,7 @@ class Login extends React.Component {
         <TextInput
           //secureTextEntry={true}
           name='card'
-          placeholder="Last 6 digits of Credit Card"
+          placeholder=" Credit Card Number"
           style={styles.input}
           onChangeText={value => this.changeCard(value)}
         />

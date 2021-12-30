@@ -1,5 +1,4 @@
 import React from 'react'
-import Search from './Search/Search'
 import AllDays from './Day/Day'
 import axios from 'axios'
 
@@ -22,7 +21,7 @@ class FraudTransactions extends React.Component {
     getTransactions = async () => {
         // get transactions
         await axios
-            .post('http://10.0.0.23:8001/transactions', {
+            .post('http://192.168.1.15:8001/transactions', {
                 id: this.props.params.id,
                 card: this.props.params.card,
                 is_fraud: 1,
@@ -44,7 +43,6 @@ class FraudTransactions extends React.Component {
         return (
             <ScrollView >
                 <Text style={styles.header}>Frauds History</Text>
-                {/* <Search /> */}
                 <AllDays changePage={this.props.changePage} history={this.state.history} />
 
             </ScrollView>

@@ -4,31 +4,33 @@ import { StyleSheet, Text, View } from 'react-native';
 import SingleTransaction from './SingleTransaction/SingleTransaction'
 
 class Day extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-  } 
+  }
 
 
-  render(){
+  render() {
 
-    let allDays = this.props.history.map(day =>{
-        return (
-                  <View style={styles.dayContainer}>
+    console.log(this.props)
 
-                    <Text style={styles.header}>{day.day}</Text>
-                    
-                    {day.transactions.map(singleTransaction=>{
-                      return(
-                        <View>
-                          <SingleTransaction changePage={this.props.changePage} info={singleTransaction}/>
-                        </View>
-                      )
-                    })}
-                  </View>
-        )
+    let allDays = this.props.history.map(day => {
+      return (
+        <View style={styles.dayContainer}>
+
+          <Text style={styles.header}>{day.day}</Text>
+
+          {day.transactions.map(singleTransaction => {
+            return (
+              <View>
+                <SingleTransaction changePage={this.props.changePage} info={singleTransaction} />
+              </View>
+            )
+          })}
+        </View>
+      )
     })
-    
-    return(
+
+    return (
       <View style={styles.container}>
         {allDays}
       </View>
@@ -40,25 +42,25 @@ class Day extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection:'column',
+    flexDirection: 'column',
     fontSize: 30,
     fontWeight: "bold",
-    marginTop:30
+    marginTop: 30
   },
   dayContainer: {
-    flexDirection:'column',
+    flexDirection: 'column',
     fontSize: 30,
     fontWeight: "bold",
-    alignContent:'center',
-    marginTop:30,
-    backgroundColor:'rgba(251,187,0,0.3)',
+    alignContent: 'center',
+    marginTop: 30,
+    backgroundColor: 'rgba(251,187,0,0.3)',
 
   },
   header: {
-    textAlign:'center',
+    textAlign: 'center',
     fontSize: 20,
     fontWeight: "bold",
-    opacity:0.5
+    opacity: 0.5
   }
 });
 

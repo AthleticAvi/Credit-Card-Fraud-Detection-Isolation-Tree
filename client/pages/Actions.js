@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Linking ,Pressable, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, Linking, Pressable, ScrollView } from 'react-native';
 import TransactionDetails from './TransactionDetails/TransactionDetails'
+import axios from 'axios'
 
 class Actions extends React.Component {
   constructor(props) {
@@ -12,18 +13,34 @@ class Actions extends React.Component {
 
   ContactCreditCardCompany = () => {
     let number = '';
-      if (Platform.OS === 'ios') {
-        number = 'telprompt:${03-6364554}';
-      } else {
-        number = 'tel:${03-6364554}';
-      }
-      Linking.openURL(number);
+    if (Platform.OS === 'ios') {
+      number = 'telprompt:${03-6364554}';
+    } else {
+      number = 'tel:${03-6364554}';
+    }
+    Linking.openURL(number);
   }
 
 
 
   ReviewTransactionAndCallTheStore = () => {
     this.props.changePage('Transaction')
+  }
+
+  moveToLegit = () => {
+    console.log(this.props)
+    axios.post('http://192.168.1.15:8001/moveToLegit', {
+      transId: this.props.params.id
+    }, {
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response => response.data)
+      .then((data) => {
+
+        this.props.changePage('Feedback')
+
+      })
+      .catch(e => console.log('errererrr:', e))
   }
 
   render() {
@@ -38,9 +55,11 @@ class Actions extends React.Component {
           <Pressable onPress={this.ContactCreditCardCompany} style={styles.Btn}><Text style={styles.btnText} >Contact credit card company</Text></Pressable>
           <Pressable onPress={this.ReviewTransactionAndCallTheStore} style={styles.Btn}><Text style={styles.btnText} >Review transaction and call the store</Text></Pressable>
           <Pressable onPress={this.ContactCreditCardCompany} style={styles.Btn}><Text style={styles.btnText} >Cancel credit card</Text></Pressable>
+
+          {this.state.info.price ? <Pressable onPress={this.moveToLegit} style={styles.Btn}><Text style={styles.btnText} >Its not a fraud transaction</Text></Pressable> : null}
         </View>
 
-        {this.state.info ? <TransactionDetails info={this.state.info} /> : null}
+        {this.state.info.price ? <TransactionDetails info={this.state.info} /> : null}
 
       </ScrollView>
     )
