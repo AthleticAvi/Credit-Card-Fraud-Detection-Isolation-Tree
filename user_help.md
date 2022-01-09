@@ -9,20 +9,20 @@ Applying this method across many banks will provide better protection and will l
 important : 
 1- to run the app, you need the server's ip, so get the computer current ip you have and put in the string in the file client/ip.js
 2- links to data files should be in the project to run, we didn't add them to the submitted folder due to there large size:
-    2.1- the trained models: add this folder (models123) inside the server folder: 
-    2.2- this files are the result of the preprocessing phase, they should be in the jupyter folder: 
+    2.1- the trained models: add this folder (models123) inside the server folder: https://drive.google.com/drive/folders/1KmHZylu-3hKCouNRcX7VZKbjGxXuxD2L?usp=sharing
+    2.2- this files are the result of the preprocessing phase, they should be in the jupyter folder: https://drive.google.com/drive/folders/1xWRqkjK3cjwnGEx2im5UnPKJiiTTKl_R?usp=sharing
 
-client :
+**Client:**
 This folder is the frontend files.
 the main files are the app.js and folder named pages. the others are dependencies prepared by react.
 
-server :
-contain the backend files
+**Server:**
+Contain the backend files
 the main files are the webserver.py and folder named controllers.
 the others are queries to prepare the database and the models for the users.
 
-jupyter :
-contain the files we used to manipulate and prepare the data and also contain the files we used to train the models.
+**Jupyter:**
+Contains the files we used to manipulate and prepare the data and also contain the files we used to train the models.
 this files we used in the preprocessing step and we don't need them while the app is running. we can use them while maintaining the app.
 if you want to take a look, open the files in order:
 1- prepare data
@@ -30,9 +30,9 @@ if you want to take a look, open the files in order:
 3- algorithm and training
 4- evaluation
 
-in order to start the app :
-client: node.js should be downloaded on the computer :
-1- open the terminal and go to the client folder : cd client
+In order to start the app:
+client: node.js should be downloaded on the computer:
+1- open the terminal and go to the client folder: cd client
 2- install the react native dependencies, run the following commands:
     2.1- npm i -g expo-cli
     2.2- expo install 
@@ -40,17 +40,17 @@ client: node.js should be downloaded on the computer :
 3- to start the client app, run the command : expo start / npm start
 4- the browser will open, then you can click on "open on web browser"
 
-server: python and pip should be downloaded on the computer :
+**Server:** python and pip should be downloaded on the computer:
 1- open the terminal and go to the server folder : cd server
 2- installing the libraries we used by running the following commands:
     2.1- pip install psycopg2
     2.2- pip install json
     2.3- pip install pandas
-3- to run the server : python webserver.py
+3- to run the server: python webserver.py
 
 
 
-users that can use to log in :
+users that can use to log in:
 
 last 4 digits   ,   id
 -----------------------
