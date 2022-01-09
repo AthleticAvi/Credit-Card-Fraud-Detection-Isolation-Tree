@@ -8,6 +8,7 @@ class DetailsAboutTransaction extends React.Component {
   }
 
   action = () => {
+    this.props.info.show = true
     this.props.changePage('Actions', this.props.info)
   }
 
