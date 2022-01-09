@@ -36,17 +36,17 @@ client: node.js should be downloaded on the computer:
 3- to start the client app, run the command : expo start / npm start
 4- the browser will open, then you can click on "open on web browser"
 
-**Server:** python and pip should be downloaded on the computer :
+**Server:** python and pip should be downloaded on the computer:
 1- open the terminal and go to the server folder : cd server
 2- installing the libraries we used by running the following commands:
     2.1- pip install psycopg2
     2.2- pip install json
     2.3- pip install pandas
-3- to run the server : python webserver.py
+3- to run the server: python webserver.py
 
 
 
-users that can use to log in :
+users that can use to log in:
 
 last 4 digits   ,   id
 -----------------------
