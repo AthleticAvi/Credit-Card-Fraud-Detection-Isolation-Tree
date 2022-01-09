@@ -1,3 +1,5 @@
+
+
 import json
 from webserver import openDB, closeDB
 
@@ -24,7 +26,6 @@ def getTransactionToTest(server):
         server.send_header('content-type', 'application/json')
         server.end_headers()
 
-        # self._set_headers()
         server.wfile.write(json.dumps(
             {'available': False}).encode("utf-8"))
 
@@ -114,7 +115,7 @@ def getTransactionToTest(server):
         prediction : -1 means its fraud
         prediction : 1 means its legitimate
         '''
-        
+        # predicting if this transaction is a fraud or not
         prediction = model.predict(
             [[amt, unix_time, merch_lat, merch_long, minutes_from_midnight, hours_from_month_start]])
 

@@ -1,0 +1,1 @@
+# this folder is to create the tables in the database and to organize the data in the database

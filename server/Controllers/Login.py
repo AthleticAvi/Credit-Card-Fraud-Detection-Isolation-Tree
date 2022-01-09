@@ -6,24 +6,22 @@ def login(server):
 
     content_len = int(server.headers.get('Content-Length'))
     data = json.loads(server.rfile.read(content_len))
-    print(data)
     # -----------------------------------
     # database
     cur, conn = openDB()
 
     cur.execute(
-        f'''SELECT * FROM users WHERE user_id = '{int(data['id'])}' AND cc_num = '{int(data['card'])}' ''')
+        f'''SELECT * FROM users WHERE user_id = '{int(data['id'])}' AND cc_num LIKE '%{int(data['card'])}' ''')
 
     content = cur.fetchall()
 
     closeDB(cur, conn)
     # ------------------------------------
-    print(content)
     resp = None
-    if len(content) == 0:
+    if len(content) == 0 and len(data['card']) != 4:
         resp = {'correct': False}
     else:
-        resp = {'correct': True}
+        resp = {'correct': True, 'cc_num': content[0][1]}
 
     server.send_response(200)  # file has been found
     # message to be displayed on webpage

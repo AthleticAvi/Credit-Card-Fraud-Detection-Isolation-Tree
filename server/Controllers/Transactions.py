@@ -1,3 +1,7 @@
+'''
+getting the transactions of this user from the database and send them to the client to show them to the user
+'''
+
 import json
 from webserver import openDB, closeDB
 import pandas as pd
@@ -6,6 +10,7 @@ import pandas as pd
 def transactions(server):
     content_len = int(server.headers.get('Content-Length'))
     data = json.loads(server.rfile.read(content_len))
+
     # -----------------------------------
     # database
     cur, conn = openDB()

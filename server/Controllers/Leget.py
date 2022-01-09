@@ -1,3 +1,6 @@
+'''
+this file is to handle the request that want to update the status of a fraud transaction to legitimate transaction
+'''
 
 import json
 from webserver import openDB, closeDB
@@ -8,12 +11,6 @@ def legit(server):
     content_len = int(server.headers.get('Content-Length'))
     data = json.loads(server.rfile.read(content_len))
 
-    '''
-    UPDATE table_name
-    SET column1 = value1, column2 = value2, ...
-    WHERE condition;
-    '''
-    print(data)
     # -----------------------------------
     # database
     cur, conn = openDB()
