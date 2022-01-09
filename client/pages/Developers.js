@@ -1,9 +1,14 @@
+/**
+ * this file is to simulate the buying with credit card process
+ */
+
 import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import React, { useState, useEffect, useRef } from 'react';
 import { TextInput, StyleSheet, Text, View, Pressable, Alert, ScrollView } from 'react-native';
 import axios from 'axios'
 import TransactionDetails from './TransactionDetails/TransactionDetails'
+import * as IP from '../ip';
 
 
 Notifications.setNotificationHandler({
@@ -18,44 +23,28 @@ class Developers extends React.Component {
 
     super(props)
     this.state = {
-      isFraud: null,
+      legitimate: null,
       id: this.props.params.id,
       transaction: null,
       transactionAvailable: false
     }
 
-    // const [expoPushToken, setExpoPushToken] = useState('');
-    // const [notification, setNotification] = useState(false);
-    // const notificationListener = useRef();
-    // const responseListener = useRef();
+  }
 
-    // const [notificationTitle, setNotificationTitle] = useState('notification');
-    // const [notificationBody, setNotificationBody] = useState('notification body');
-    // useEffect(() => {
-    //   registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    //   notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-    //     setNotification(notification);
-    //   });
-
-    //   responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-    //     console.log(response);
-    //   });
-
-    //   return () => {
-    //     Notifications.removeNotificationSubscription(notificationListener.current);
-    //     Notifications.removeNotificationSubscription(responseListener.current);
-    //   };
-    // }, []);
+  goToActions = () => {
+    this.props.changePage('Actions', this.state.transaction)
   }
 
   submit = async (f) => {
+    /**
+     * getting transaction from the database and applying the algorithm and then receiving the result with the transaction
+     */
     this.setState({
-      isFraud: null,
+      legitimate: null,
       transaction: null,
       transactionAvailable: false
     })
-    await axios.post('http://192.168.1.15:8001/developers', {
+    await axios.post(`http://${IP.ip}:8001/developers`, {
       isFraud: f,
       id: this.state.id
     }, {
@@ -64,37 +53,60 @@ class Developers extends React.Component {
       .then(response => response.data)
       .then((data) => {
         if (data['available']) {
+          // if there is no transaction available in the database
           this.setState({
             transaction: data['transaction'],
-            result: data['prediction'],
+            legitimate: data['prediction'],
             transactionAvailable: true
           })
-          if (data['prediction' == -1]) {
-            //schedulePushNotification('notificationTitle', 'notificationBody');
+          if (data['prediction'] == -1) {
+            // if the transaction detected as fraud
+            this.schedulePushNotification('Fraud Alert', 'There is a fraud transaction detected from your credit card. click to see details');
           }
         } else {
           Alert.alert('No transactions available in the dataset')
         }
 
-      }).catch(e => console.log('errrr:', e))
+      })
+      .catch(e => console.log('errrr:', e))
 
   }
 
   fraud = () => {
-    this.setState({
-      isFraud: 1
-    })
+    // if we want to simulate a fraud transaction
     this.submit(1)
   }
 
   legitimate = () => {
-    this.setState({
-      isFraud: 0
-    })
+    // if we want to simulate a legitimate transaction
     this.submit(0)
   }
 
+
+  async schedulePushNotification(title, body) {
+    // making notification in case we detected a fraud transaction
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: title,
+        body: body,
+        data: { data: 'goes here' },
+        sound: 'default' | null,
+      },
+      trigger: { seconds: 1 },
+    });
+  }
+
+
   render() {
+
+    let str = null
+
+    if (this.state.legitimate == -1)
+      // preparing the message we want to show the developer after simulating the buying process
+      str = "model's prediction: fraud transaction"
+    else {
+      str = "model's prediction: legitimate transaction"
+    }
 
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -110,7 +122,7 @@ class Developers extends React.Component {
 
         {this.state.transactionAvailable ? (
           <View>
-            <Text style={styles.signinBtn}>{"model's prediction: " + this.state.transaction.prediction == -1 ? 'fraud transaction' : 'legitimate transaction'}</Text>
+            <Text style={styles.signinBtn}>{str}</Text>
             <TransactionDetails info={this.state.transaction} />
 
           </View>
@@ -127,48 +139,6 @@ class Developers extends React.Component {
 
 // }
 
-async function schedulePushNotification(title, body) {
-  await Notifications.scheduleNotificationAsync({
-    content: {
-      title: title,
-      body: body,
-      data: { data: 'goes here' },
-      sound: 'default' | null,
-    },
-    trigger: { seconds: 1 },
-  });
-}
-
-async function registerForPushNotificationsAsync() {
-  let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
-  if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-      name: 'default',
-      importance: Notifications.AndroidImportance.MAX,
-      vibrationPattern: [0, 250, 250, 250],
-      lightColor: '#FF231F7C',
-    });
-  }
-
-  return token;
-}
 
 const styles = StyleSheet.create({
   container: {

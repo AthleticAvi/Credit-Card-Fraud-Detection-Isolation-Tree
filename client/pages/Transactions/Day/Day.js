@@ -11,7 +11,8 @@ class Day extends React.Component {
 
   render() {
 
-    console.log(this.props)
+
+
 
     let allDays = this.props.history.map(day => {
       return (

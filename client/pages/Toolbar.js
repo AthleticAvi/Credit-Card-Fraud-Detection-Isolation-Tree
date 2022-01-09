@@ -1,5 +1,7 @@
 
-
+/**
+ * this the toolbar component that can help the user to navigate between pages
+ */
 
 import React from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';

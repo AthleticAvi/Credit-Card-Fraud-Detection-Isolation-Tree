@@ -1,7 +1,13 @@
+/**
+ * this file is to manage the legitimate transactions and show them to the user 
+ * 
+ */
+
 import React from 'react'
 import Day from './Day/Day'
 import { StyleSheet, Text, ScrollView, View, Pressable } from 'react-native';
 import axios from 'axios'
+import * as IP from '../../ip';
 
 
 class Transactions extends React.Component {
@@ -12,47 +18,60 @@ class Transactions extends React.Component {
             history: [],
             card: this.props.params.card,
             id: this.props.params.id,
-            show: []
+            show: [],
+            cnt: 0
         }
 
         this.getTransactions()
     }
 
 
-
-
     getTransactions = async () => {
-        // get transactions
+
         await axios
-            .post('http://192.168.1.15:8001/transactions', {
+            .post(`http://${IP.ip}:8001/transactions`, {
                 id: this.props.params.id,
                 card: this.props.params.card,
                 is_fraud: 0
             }, {
                 headers: { 'Content-Type': 'application/json' },
-            })
-            .then(response => response.data)
-            .then((data) => {
-                console.log('--------------------')
-                console.log(data['history'].length)
-                console.log('--------------------')
-
+            }).then(resp => resp.data)
+            .then(data => {
                 this.setState({
-
                     history: data['history'],
                 })
-
             })
-            .catch(e => console.log('errererrr:', e))
+            .catch(err => console.log(err))
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 
+    componentDidMount() {
+        if (this.state.history == 'undefined') {
+            this.setState({ history: [] })
+        }
+    }
+
+
+
     render() {
+
+
+
+
+
+
+
+
         return (
             <ScrollView >
                 <Text style={styles.header}>Transactions History</Text>
-                <Day changePage={this.props.changePage} history={this.state.history} />
 
+                {/* this.state.history.length == undefined ? null :  */}
+                <Day changePage={this.props.changePage} history={this.state.history} />
             </ScrollView>
         )
     }

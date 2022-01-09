@@ -18,7 +18,7 @@ class DetailsAboutTransaction extends React.Component {
       <Pressable onPress={this.props.changeShow} style={styles.container}>
         <View style={styles.containerRow}>
           <Text style={styles.product}>{'category'}</Text>
-          <Text style={styles.price}>{this.props.info.price}</Text>
+          <Text style={styles.price}>{this.props.info.category}</Text>
         </View>
 
         <View style={styles.containerRow}>

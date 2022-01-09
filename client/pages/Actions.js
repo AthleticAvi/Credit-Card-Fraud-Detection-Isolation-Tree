@@ -1,7 +1,12 @@
+/**
+ * this file is to show the actions that the user can make
+ */
+
 import React from 'react';
 import { StyleSheet, Text, View, Button, Linking, Pressable, ScrollView } from 'react-native';
 import TransactionDetails from './TransactionDetails/TransactionDetails'
 import axios from 'axios'
+import * as IP from '../ip';
 
 class Actions extends React.Component {
   constructor(props) {
@@ -23,13 +28,12 @@ class Actions extends React.Component {
 
 
 
-  ReviewTransactionAndCallTheStore = () => {
-    this.props.changePage('Transaction')
-  }
-
   moveToLegit = () => {
-    console.log(this.props)
-    axios.post('http://192.168.1.15:8001/moveToLegit', {
+    // if the transaction is a legitimate transaction then the 
+    // user can make this action to move it from the fraud 
+    // transactions to the legitimates
+    // also we update the transaction status in the database
+    axios.post(`http://${IP.ip}:8001/moveToLegit`, {
       transId: this.props.params.id
     }, {
       headers: { 'Content-Type': 'application/json' },
@@ -53,10 +57,9 @@ class Actions extends React.Component {
 
         <View style={styles.BTNS}>
           <Pressable onPress={this.ContactCreditCardCompany} style={styles.Btn}><Text style={styles.btnText} >Contact credit card company</Text></Pressable>
-          <Pressable onPress={this.ReviewTransactionAndCallTheStore} style={styles.Btn}><Text style={styles.btnText} >Review transaction and call the store</Text></Pressable>
           <Pressable onPress={this.ContactCreditCardCompany} style={styles.Btn}><Text style={styles.btnText} >Cancel credit card</Text></Pressable>
 
-          {this.state.info.price ? <Pressable onPress={this.moveToLegit} style={styles.Btn}><Text style={styles.btnText} >Its not a fraud transaction</Text></Pressable> : null}
+          {this.state.info.price ? (this.state.info.show ? null : <Pressable onPress={this.moveToLegit} style={styles.Btn}><Text style={styles.btnText} >Its not a fraud transaction</Text></Pressable>) : null}
         </View>
 
         {this.state.info.price ? <TransactionDetails info={this.state.info} /> : null}

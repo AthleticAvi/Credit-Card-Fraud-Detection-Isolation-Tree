@@ -1,4 +1,6 @@
-
+/**
+ * organizing and group the transactions in by days
+ */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SingleTransaction from './SingleTransaction/SingleTransaction'

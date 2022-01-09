@@ -1,6 +1,13 @@
+/**
+ * this file is to manage the fraud transactions and show them to the user 
+ * 
+ */
+
 import React from 'react'
 import AllDays from './Day/Day'
 import axios from 'axios'
+
+import * as IP from '../../ip';
 
 import { StyleSheet, Text, ScrollView, View } from 'react-native';
 
@@ -19,9 +26,10 @@ class FraudTransactions extends React.Component {
     }
 
     getTransactions = async () => {
-        // get transactions
+        //
+        // get the fraud transactions from the database
         await axios
-            .post('http://192.168.1.15:8001/transactions', {
+            .post(`http://${IP.ip}:8001/transactions`, {
                 id: this.props.params.id,
                 card: this.props.params.card,
                 is_fraud: 1,

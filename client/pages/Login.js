@@ -1,6 +1,13 @@
+/**
+ * this is the log in page 
+ * the system will check if the inserted values are valid
+ */
+
 import React from 'react';
 import { TextInput, StyleSheet, Text, View, Pressable, Alert } from 'react-native';
 import axios from 'axios'
+import * as IP from '../ip';
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,9 +18,9 @@ class Login extends React.Component {
     }
   }
 
-  submit = () => {
+  submit = async () => {
 
-    axios.post('http://192.168.1.15:8001/login', {
+    axios.post(`http://${IP.ip}:8001/login`, {
       id: this.state.id,
       card: this.state.card
     }, {
@@ -21,12 +28,14 @@ class Login extends React.Component {
     })
       .then(response => response.data)
       .then((data) => {
-
         if (data['correct']) {
           let params = {
-            card: this.state.card,
+            card: data['cc_num'],
             id: this.state.id
           }
+          this.setState({
+            card: data['cc_num'],
+          })
           this.props.setCardAndId(this.state.id, this.state.card)
           this.props.changePage('Transaction', params)
         } else {
@@ -59,7 +68,7 @@ class Login extends React.Component {
         <TextInput
           //secureTextEntry={true}
           name='card'
-          placeholder=" Credit Card Number"
+          placeholder=" Last 4 digits on Credit Card"
           style={styles.input}
           onChangeText={value => this.changeCard(value)}
         />
