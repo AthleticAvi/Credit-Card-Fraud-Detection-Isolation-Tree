@@ -6,7 +6,11 @@ The more the app is used, the better it is suited to the user and the more fraud
 
 Applying this method across many banks will provide better protection and will limit fraud on a country wide scale.
 
-important : to run the app, you need the server's ip, so get the computer current ip you have and put in the string in the file client/ip.js
+important : 
+1- to run the app, you need the server's ip, so get the computer current ip you have and put in the string in the file client/ip.js
+2- links to data files should be in the project to run, we didn't add them to the submitted folder due to there large size:
+    2.1- the trained models: add this folder (models123) inside the server folder: 
+    2.2- this files are the result of the preprocessing phase, they should be in the jupyter folder: 
 
 client :
 This folder is the frontend files.
